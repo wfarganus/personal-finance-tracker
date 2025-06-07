@@ -1,4 +1,4 @@
-package wfarganu.personalfinancetracker.budget
+package wfarganu.personalfinancetracker.budget.domain.core
 
 import wfarganu.personalfinancetracker.ddd.ValueObject
 import java.math.BigDecimal
