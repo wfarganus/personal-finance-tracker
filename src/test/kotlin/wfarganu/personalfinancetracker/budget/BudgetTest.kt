@@ -66,4 +66,32 @@ class BudgetTest {
         assertEquals(budget.uuid, lockedBudget.getOrThrow().uuid)
         assertTrue(lockedBudget.getOrThrow().locked)
     }
+
+    @Test
+    fun shouldNotChangeLimitOfLockedBudget() {
+        // given
+        val budget = Budget.create(2025, Month.FEBRUARY, Money(BigDecimal("100.00"), "PLN"))
+        val lockedBudget = budget.lock().getOrThrow()
+
+        // when
+        val result = lockedBudget.changeLimit(Money(BigDecimal("200.00"), "PLN"))
+
+        // then
+        assertTrue(result.isFailure)
+        assertTrue(result.exceptionOrNull() is IllegalStateException)
+    }
+
+    @Test
+    fun shouldNotLockAlreadyLockedBudget() {
+        // given
+        val budget = Budget.create(2025, Month.FEBRUARY, Money(BigDecimal("100.00"), "PLN"))
+        val lockedBudget = budget.lock().getOrThrow()
+
+        // when
+        val result = lockedBudget.lock()
+
+        // then
+        assertTrue(result.isFailure)
+        assertTrue(result.exceptionOrNull() is IllegalStateException)
+    }
 }
