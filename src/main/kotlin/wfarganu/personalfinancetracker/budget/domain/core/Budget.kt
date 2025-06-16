@@ -11,9 +11,9 @@ class Budget private constructor(
     val year: Int,
     val month: Month,
     // limit is not a class property, but a constructor parameter
-    limit: Money,
-    locked: Boolean = false,
-    private val _spendings: MutableList<Spending> = mutableListOf()
+    val limit: Money,
+    val locked: Boolean = false,
+    private val _spendings: Spendings = Spendings(emptyList())
 ) {
 
     // Factory method to create a new Budget instance - equivalent to a static method in Java
@@ -32,25 +32,28 @@ class Budget private constructor(
     // It has no backing field, so it is not stored in memory, fresh copy every time
     // To adhere to immutability principles, we return an immutable copy of the list
     val spendings: List<Spending>
-        get() = _spendings.toList() // Returns an immutable copy of the spendings list
+        get() = _spendings.spendings // Returns an immutable copy of the spendings list
 
-    // class property with private setter
-    var limit = limit
-    private set
-
-    @get:JvmName("isLocked") // This annotation allows the property to be accessed as isLocked in Java
-    var locked = locked
-        private set
+    val totalSpendAmount: Money
+        get() = _spendings.totalSpendAmount // Returns the total spend amount, which is a class property
 
     // Function defined using expression body syntax
-    // If is the expression in the Kotlin meaning it can be returned, assigned, passed as a parameter, etc.
+    // 'if' statement is the expression in the Kotlin meaning it can be returned, assigned, passed as a parameter, etc.
     fun changeLimit(limit: Money): Result<Budget> =
         if (locked) Result.failure(IllegalStateException(CANNOT_UPDATE_LOCKED_BUDGET))
-        else Result.success(Budget(uuid, year, month, limit, locked, _spendings))
+        else Result.success(Budget(uuid, year, month, limit, _spendings = _spendings))
 
     // Function defined using block body syntax - return keyword is mandatory here
     fun lock(): Result<Budget> {
         return if (locked) Result.failure(IllegalStateException(BUDGET_ALREADY_LOCKED))
-        else Result.success(Budget(uuid, year, month, limit, true, _spendings))
+        else Result.success(Budget(uuid, year, month, limit, _spendings = _spendings))
+    }
+
+    fun addSpending(spending: Spending): Result<Budget> {
+        if (locked) {
+            return Result.failure(IllegalStateException(CANNOT_UPDATE_LOCKED_BUDGET))
+        }
+        _spendings.add(spending)
+        return Result.success(Budget(uuid, year, month, limit, _spendings = _spendings))
     }
 }

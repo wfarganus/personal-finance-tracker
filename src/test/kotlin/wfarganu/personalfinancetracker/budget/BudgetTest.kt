@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import wfarganu.personalfinancetracker.budget.domain.core.Budget
 import wfarganu.personalfinancetracker.budget.domain.core.Money
+import wfarganu.personalfinancetracker.budget.domain.core.Spending
 import java.math.BigDecimal
 import java.time.Month
 
@@ -93,5 +94,21 @@ class BudgetTest {
         // then
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is IllegalStateException)
+    }
+
+    @Test
+    fun shouldAddSpendingToBudget() {
+        // given
+        val budget = Budget.create(2025, Month.FEBRUARY, Money(BigDecimal("1000.00"), "PLN"))
+        val spending01 = Spending("Groceries", Money(BigDecimal("200.00"), "PLN"))
+        val spending02 = Spending("Groceries", Money(BigDecimal("200.00"), "PLN"))
+
+        // when
+        val newBudget = budget.addSpending(spending01)
+
+        // then
+        assertTrue(spending01 in budget.spendings)
+        assertTrue(spending02 in budget.spendings)
+        assertEquals(Money(BigDecimal("400.00"), "PLN"), budget.totalSpendAmount)
     }
 }
