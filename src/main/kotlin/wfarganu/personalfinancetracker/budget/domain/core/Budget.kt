@@ -40,20 +40,25 @@ class Budget private constructor(
     // Function defined using expression body syntax
     // 'if' statement is the expression in the Kotlin meaning it can be returned, assigned, passed as a parameter, etc.
     fun changeLimit(limit: Money): Result<Budget> =
-        if (locked) Result.failure(IllegalStateException(CANNOT_UPDATE_LOCKED_BUDGET))
-        else Result.success(Budget(uuid, year, month, limit, _spendings = _spendings))
+         ensureUnlocked().map { Budget(uuid, year, month, limit, _spendings = _spendings) }
 
     // Function defined using block body syntax - return keyword is mandatory here
     fun lock(): Result<Budget> {
-        return if (locked) Result.failure(IllegalStateException(BUDGET_ALREADY_LOCKED))
-        else Result.success(Budget(uuid, year, month, limit, _spendings = _spendings))
+        return ensureUnlocked(BUDGET_ALREADY_LOCKED)
+            .map { Budget(uuid, year, month, limit, true, _spendings) } // Update the locked state
     }
 
     fun addSpending(spending: Spending): Result<Budget> {
+        return ensureUnlocked()
+            .map { _spendings.add(spending) }
+            .map { newSpendings ->
+                Budget(uuid, year, month, limit, locked, _spendings = newSpendings) }
+    }
+
+    private fun ensureUnlocked(error: String = CANNOT_UPDATE_LOCKED_BUDGET): Result<Unit> {
         if (locked) {
-            return Result.failure(IllegalStateException(CANNOT_UPDATE_LOCKED_BUDGET))
+            return Result.failure(IllegalStateException(error))
         }
-        _spendings.add(spending)
-        return Result.success(Budget(uuid, year, month, limit, _spendings = _spendings))
+        return Result.success(Unit)
     }
 }

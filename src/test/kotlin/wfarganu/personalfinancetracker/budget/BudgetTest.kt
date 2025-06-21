@@ -104,11 +104,12 @@ class BudgetTest {
         val spending02 = Spending("Groceries", Money(BigDecimal("200.00"), "PLN"))
 
         // when
-        val newBudget = budget.addSpending(spending01)
+        val budget01 = budget.addSpending(spending01).getOrThrow()
+        val budget02 = budget01.addSpending(spending02).getOrThrow()
 
         // then
-        assertTrue(spending01 in budget.spendings)
-        assertTrue(spending02 in budget.spendings)
-        assertEquals(Money(BigDecimal("400.00"), "PLN"), budget.totalSpendAmount)
+        assertTrue(spending01 in budget02.spendings)
+        assertTrue(spending02 in budget02.spendings)
+        assertEquals(Money(BigDecimal("400.00"), "PLN"), budget02.totalSpendAmount)
     }
 }
