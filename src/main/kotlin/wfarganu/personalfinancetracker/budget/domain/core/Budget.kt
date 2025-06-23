@@ -18,9 +18,9 @@ class Budget private constructor(
 
     // Factory method to create a new Budget instance - equivalent to a static method in Java
     companion object {
-        fun create(year: Int, month: Month, limit: Money): Budget {
+        fun create(year: Int, month: Month, limit: Money, spendings: Spendings = Spendings(emptyList())): Budget {
             // Named arguments allow to omit the parameters with default values
-            return Budget(UUID.randomUUID(), year, month, limit)
+            return Budget(UUID.randomUUID(), year, month, limit, _spendings = spendings)
         }
     }
 

@@ -1,0 +1,26 @@
+package wfarganu.personalfinancetracker.budget.infrastructure
+
+import jakarta.persistence.Embedded
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
+import wfarganu.personalfinancetracker.budget.domain.core.Money
+import java.util.UUID
+
+@Entity
+@Table(name = "spendings")
+internal class SpendingEntity(
+    @Id
+    val uuid: UUID = UUID.randomUUID(),
+
+    var name: String = "",
+
+    @Embedded
+    var amount: Money = Money.ZERO,
+
+    @ManyToOne
+    @JoinColumn(name = "budget_uuid", nullable = false)
+    var budget: BudgetEntity? = null
+)
