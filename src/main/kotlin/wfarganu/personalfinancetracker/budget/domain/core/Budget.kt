@@ -22,6 +22,15 @@ class Budget private constructor(
             // Named arguments allow to omit the parameters with default values
             return Budget(UUID.randomUUID(), year, month, limit, _spendings = spendings)
         }
+
+        fun recreate(
+            uuid: UUID,
+            year: Int,
+            month: Month,
+            limit: Money,
+            locked: Boolean,
+            spendings: Spendings
+        ): Budget = Budget(uuid, year, month, limit, locked, spendings)
     }
 
     // This is a backing property for the spendings list but returns always fixed size list

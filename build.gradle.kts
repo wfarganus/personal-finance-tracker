@@ -29,13 +29,18 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    implementation("org.postgresql:postgresql:42.7.3")
+    testImplementation("org.testcontainers:postgresql:1.21.2")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.2")
+    implementation("org.liquibase:liquibase-core")
 }
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll(listOf(
+            "-Xjvm-default=all",        // THIS enables default methods in interfaces
+            "-Xjsr305=strict"
+        ))
     }
 }
 
@@ -47,4 +52,5 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    dependsOn("testClasses")
 }

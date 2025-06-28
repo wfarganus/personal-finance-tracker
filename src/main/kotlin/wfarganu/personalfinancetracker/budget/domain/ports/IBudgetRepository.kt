@@ -1,4 +1,4 @@
-package wfarganu.personalfinancetracker.budget.infrastructure
+package wfarganu.personalfinancetracker.budget.domain.ports
 
 import wfarganu.personalfinancetracker.budget.domain.core.Budget
 

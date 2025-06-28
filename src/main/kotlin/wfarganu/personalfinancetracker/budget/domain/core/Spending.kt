@@ -10,6 +10,6 @@ data class Spending(val name: String, val amount: Money) {
     // as the init is not called when copying the object, so the validation will not be performed
     init {
         require(name.isNotBlank()) { "Spending name cannot be blank" }
-        require(amount.value > BigDecimal.ZERO) { "Spending amount must be greater than zero" }
+        require(amount.amount > BigDecimal.ZERO) { "Spending amount must be greater than zero" }
     }
 }

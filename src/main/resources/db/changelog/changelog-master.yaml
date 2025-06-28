@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: wfarganus
+      changes:
+        - sqlFile:
+            path: changes/001-create-budget-spending-table.sql
+            relativeToChangelogFile: true

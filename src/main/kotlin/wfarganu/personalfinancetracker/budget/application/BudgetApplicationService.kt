@@ -1,7 +1,7 @@
 package wfarganu.personalfinancetracker.budget.application
 
 import wfarganu.personalfinancetracker.budget.domain.core.Budget
-import wfarganu.personalfinancetracker.budget.infrastructure.IBudgetRepository
+import wfarganu.personalfinancetracker.budget.domain.ports.IBudgetRepository
 import wfarganu.personalfinancetracker.ddd.ApplicationService
 
 /**
@@ -10,7 +10,8 @@ import wfarganu.personalfinancetracker.ddd.ApplicationService
  */
 @ApplicationService
 class BudgetApplicationService(
-    private val budgetRepository: IBudgetRepository) {
+    private val budgetRepository: IBudgetRepository
+) {
 
     /**
      * Saves a budget to the repository.

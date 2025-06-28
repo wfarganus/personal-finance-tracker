@@ -1,15 +1,12 @@
-package wfarganu.personalfinancetracker.budget
+package wfarganu.personalfinancetracker.budget.domain.core
 
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import wfarganu.personalfinancetracker.budget.domain.core.Budget
-import wfarganu.personalfinancetracker.budget.domain.core.Money
-import wfarganu.personalfinancetracker.budget.domain.core.Spending
 import java.math.BigDecimal
 import java.time.Month
 
-class BudgetTest {
+internal class BudgetTest {
 
     /**
      * As the user I want to create a budget for a specific month

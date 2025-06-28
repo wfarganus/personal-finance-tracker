@@ -1,25 +1,26 @@
 package wfarganu.personalfinancetracker.budget.infrastructure
 
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
 import wfarganu.personalfinancetracker.budget.domain.core.Budget
 import wfarganu.personalfinancetracker.budget.domain.core.Spending
 import wfarganu.personalfinancetracker.budget.domain.core.Spendings
 
-@Mapper(componentModel = "spring")
-internal interface BudgetMapper {
+internal object BudgetMapper {
 
-    @Mapping(source = "spendings", target = "spendings")
-    fun toDomain(entity: BudgetEntity): Budget
+    fun toDomain(entity: BudgetEntity): Budget = Budget.recreate(
+        uuid = entity.uuid,
+        year = entity.year,
+        month = entity.month.let { it ?: throw IllegalArgumentException("Month cannot be null") },
+        limit = entity.limit,
+        locked = entity.locked,
+        spendings = Spendings(entity.spendings.map { Spending(it.name, it.amount) })
+    )
 
-    @Mapping(source = "spendings", target = "spendings")
-    fun toEntity(domain: Budget): BudgetEntity
-
-    fun toDomain(spending: SpendingEntity): Spending
-    fun toEntity(spending: Spending): SpendingEntity
-
-    fun toDomain(spendings: List<SpendingEntity>): Spendings = Spendings(spendings.map { toDomain(it) })
-
-    fun toEntity(spendings: Spendings): MutableList<SpendingEntity> =
-        spendings.spendings.map { toEntity(it) }.toMutableList()
+    fun toEntity(domain: Budget): BudgetEntity = BudgetEntity(
+        uuid = domain.uuid,
+        year = domain.year,
+        month = domain.month,
+        limit = domain.limit,
+        locked = domain.locked,
+        spendings = domain.spendings.map { SpendingEntity(name = it.name, amount = it.amount) }.toMutableList()
+    )
 }
