@@ -3,6 +3,7 @@ package wfarganu.personalfinancetracker.budget.domain.core
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import wfarganu.personalfinancetracker.shared.domain.Money
 import java.math.BigDecimal
 import java.time.Month
 

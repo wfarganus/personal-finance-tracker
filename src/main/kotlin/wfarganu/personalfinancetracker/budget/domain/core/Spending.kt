@@ -1,6 +1,7 @@
 package wfarganu.personalfinancetracker.budget.domain.core
 
 import wfarganu.personalfinancetracker.ddd.ValueObject
+import wfarganu.personalfinancetracker.shared.domain.Money
 import java.math.BigDecimal
 
 // by default params cannot be null unless explicitly specified with `?`

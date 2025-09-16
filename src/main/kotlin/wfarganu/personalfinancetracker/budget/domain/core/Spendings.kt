@@ -1,5 +1,7 @@
 package wfarganu.personalfinancetracker.budget.domain.core
 
+import wfarganu.personalfinancetracker.shared.domain.Money
+
 data class Spendings(private val _spendings: List<Spending>) {
 
     val spendings: List<Spending>

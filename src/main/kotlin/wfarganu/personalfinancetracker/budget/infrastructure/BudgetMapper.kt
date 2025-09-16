@@ -21,6 +21,8 @@ internal object BudgetMapper {
         month = domain.month,
         limit = domain.limit,
         locked = domain.locked,
-        spendings = domain.spendings.map { SpendingEntity(name = it.name, amount = it.amount) }.toMutableList()
+        spendings = domain.spendings
+            .map { SpendingEntity(name = it.name, amount = it.amount, budget = BudgetEntity(domain.uuid)) }
+            .toMutableList()
     )
 }

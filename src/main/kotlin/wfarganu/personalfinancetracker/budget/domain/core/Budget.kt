@@ -2,6 +2,7 @@ package wfarganu.personalfinancetracker.budget.domain.core
 
 import wfarganu.personalfinancetracker.budget.domain.BUDGET_ALREADY_LOCKED
 import wfarganu.personalfinancetracker.budget.domain.CANNOT_UPDATE_LOCKED_BUDGET
+import wfarganu.personalfinancetracker.shared.domain.Money
 import java.time.Month
 import java.util.*
 

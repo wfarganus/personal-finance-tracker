@@ -1,7 +1,7 @@
 package wfarganu.personalfinancetracker.budget.infrastructure
 
 import jakarta.persistence.*
-import wfarganu.personalfinancetracker.budget.domain.core.Money
+import wfarganu.personalfinancetracker.shared.domain.Money
 import wfarganu.personalfinancetracker.shared.infrastructure.AuditableEntity
 import java.time.Month
 import java.util.*
@@ -24,4 +24,13 @@ internal class BudgetEntity(
 
     @OneToMany(mappedBy = "budget", cascade = [CascadeType.ALL], orphanRemoval = true)
     var spendings: MutableList<SpendingEntity> = mutableListOf()
-) : AuditableEntity()
+) : AuditableEntity() {
+    constructor(uuid: UUID) : this(
+        uuid = uuid,
+        year = 0,
+        month = null,
+        limit = Money.ZERO,
+        locked = false,
+        spendings = mutableListOf()
+    )
+}

@@ -6,7 +6,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import wfarganu.personalfinancetracker.budget.domain.core.Money
+import wfarganu.personalfinancetracker.shared.domain.Money
 import wfarganu.personalfinancetracker.shared.infrastructure.AuditableEntity
 import java.util.UUID
 
@@ -23,5 +23,5 @@ internal class SpendingEntity(
 
     @ManyToOne
     @JoinColumn(name = "budget_uuid", nullable = false)
-    var budget: BudgetEntity? = null
+    val budget: BudgetEntity
 ) : AuditableEntity()

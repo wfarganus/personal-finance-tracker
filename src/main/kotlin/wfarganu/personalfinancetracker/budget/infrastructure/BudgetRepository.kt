@@ -1,6 +1,7 @@
 package wfarganu.personalfinancetracker.budget.infrastructure
 
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Repository
 import wfarganu.personalfinancetracker.budget.domain.core.Budget
 import wfarganu.personalfinancetracker.budget.domain.ports.IBudgetRepository
@@ -9,10 +10,11 @@ import wfarganu.personalfinancetracker.budget.domain.ports.IBudgetRepository
  * I prefer to use EntityManager directly for more control over the persistence context
  */
 @Repository
-internal class BudgetRepositoryRepository(
+internal class BudgetRepository(
     private val entityManager: EntityManager) : IBudgetRepository {
 
     // Consider using BudgetMapper as bean to show all dependencies in constructor
+    @Transactional
     override fun save(budget: Budget): Budget {
         BudgetMapper.toEntity(budget).let {
             entityManager.persist(it)

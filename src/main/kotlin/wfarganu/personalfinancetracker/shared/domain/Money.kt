@@ -1,4 +1,4 @@
-package wfarganu.personalfinancetracker.budget.domain.core
+package wfarganu.personalfinancetracker.shared.domain
 
 import wfarganu.personalfinancetracker.ddd.ValueObject
 import java.math.BigDecimal
@@ -6,6 +6,9 @@ import java.math.BigDecimal
 const val DEFAULT_CURRENCY = "PLN"
 @ValueObject
 data class Money(val amount: BigDecimal, val currency: String = DEFAULT_CURRENCY) {
+
+    constructor() : this(BigDecimal.ZERO, DEFAULT_CURRENCY)
+
     init {
         require(amount >= BigDecimal.ZERO) { "Money value cannot be negative" }
         require(currency.isNotBlank()) { "Currency cannot be blank" }
